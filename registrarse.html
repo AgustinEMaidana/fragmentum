@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<head>
+    <html lang="es">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registrarse - Fragmentum</title>
+<link href='estilos/styles.css' rel='stylesheet'>
+<link href='estilos/paginas/registrarse.css' rel='stylesheet'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+<canvas id="fondoNumeros"></canvas>
+<!--#include file="controlMusica.html" -->
+<div class="registro">
+    <h2 data-i18n="registrarseTitle">Registrarse</h2>
+    <form>
+        <div class="input-container">
+            <input class="input neutral" type="text" data-i18n-placeholder="nombre" placeholder="Nombre" id="nombre" required>
+            <div class="validation-message neutral" id="nombreValidation"></div>
+        </div>
+        
+        <div class="input-container">
+            <input class="input neutral" type="email" data-i18n-placeholder="correoElectronico" placeholder="Correo Electronico" id="email" required>
+            <div class="validation-message neutral" id="emailValidation"></div>
+        </div>
+        
+        <div class="input-container">
+            <input class="input neutral" type="password" data-i18n-placeholder="contraseña" placeholder="Contraseña" id="password" required>
+            <div class="validation-message neutral" id="passwordValidation"></div>
+        </div>
+        
+        <div class="input-container">
+            <input class="input neutral" type="password" data-i18n-placeholder="confirmarContraseña" placeholder="Confirmar Contraseña" id="confirm_password" required>
+            <div class="validation-message neutral" id="confirmPasswordValidation"></div>
+        </div>
+        
+        <button class="btn" type="submit" data-i18n="iniciar" id="registerBtn" disabled>Registrarse</button>
+    </form>
+    <p data-i18n="yaTienesCuenta">¿Ya tenes una cuenta?</p>
+    <p><a href="index.html" data-i18n="iniciarSesion">Iniciar Sesión</a></p>
+</div>
+
+    <script src="scripts/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.querySelector('.registro form');
+    var sound = new Audio('sonidos/sonido.mp3');
+    var registerBtn = document.getElementById('registerBtn');
+    
+    // Elementos del formulario
+    var nombreInput = document.getElementById('nombre');
+    var emailInput = document.getElementById('email');
+    var passwordInput = document.getElementById('password');
+    var confirmPasswordInput = document.getElementById('confirm_password');
+    
+    // Elementos de validación
+    var nombreValidation = document.getElementById('nombreValidation');
+    var emailValidation = document.getElementById('emailValidation');
+    var passwordValidation = document.getElementById('passwordValidation');
+    var confirmPasswordValidation = document.getElementById('confirmPasswordValidation');
+    
+    // Estado de validación
+    var validationState = {
+        nombre: false,
+        email: false,
+        password: false,
+        confirmPassword: false
+    };
+    
+    // Función para validar nombre
+    function validateNombre() {
+        var nombre = nombreInput.value.trim();
+        if (nombre.length === 0) {
+            setValidationState(nombreInput, nombreValidation, 'neutral', '');
+            validationState.nombre = false;
+        } else if (nombre.length < 2) {
+            setValidationState(nombreInput, nombreValidation, 'invalid', '❌ El nombre debe tener al menos 2 caracteres');
+            validationState.nombre = false;
+        } else if (nombre.length > 30) {
+            setValidationState(nombreInput, nombreValidation, 'invalid', '❌ El nombre es demasiado largo');
+            validationState.nombre = false;
+        } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre)) {
+            setValidationState(nombreInput, nombreValidation, 'invalid', '❌ Solo se permiten letras y espacios');
+            validationState.nombre = false;
+        } else {
+            setValidationState(nombreInput, nombreValidation, 'valid', '✅ Nombre válido');
+            validationState.nombre = true;
+        }
+        updateSubmitButton();
+    }
+    
+    // Función para validar email
+    function validateEmail() {
+        var email = emailInput.value.trim();
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (email.length === 0) {
+            setValidationState(emailInput, emailValidation, 'neutral', '');
+            validationState.email = false;
+        } else if (!emailRegex.test(email)) {
+            setValidationState(emailInput, emailValidation, 'invalid', '❌ Formato de email inválido');
+            validationState.email = false;
+        } else if (email.length > 100) {
+            setValidationState(emailInput, emailValidation, 'invalid', '❌ Email demasiado largo');
+            validationState.email = false;
+        } else {
+            setValidationState(emailInput, emailValidation, 'valid', '✅ Email válido');
+            validationState.email = true;
+        }
+        updateSubmitButton();
+    }
+    
+    // Función para validar contraseña
+    function validatePassword() {
+        var password = passwordInput.value;
+        if (password.length === 0) {
+            setValidationState(passwordInput, passwordValidation, 'neutral', '');
+            validationState.password = false;
+        } else if (password.length < 6) {
+            setValidationState(passwordInput, passwordValidation, 'invalid', '❌ Mínimo 6 caracteres');
+            validationState.password = false;
+        } else if (password.length > 50) {
+            setValidationState(passwordInput, passwordValidation, 'invalid', '❌ Contraseña demasiado larga');
+            validationState.password = false;
+        } else if (!/(?=.*[a-zA-Z])/.test(password)) {
+            setValidationState(passwordInput, passwordValidation, 'invalid', '❌ Debe contener al menos una letra');
+            validationState.password = false;
+        } else {
+            var strength = '';
+            if (password.length >= 8 && /(?=.*[0-9])/.test(password)) {
+                strength = ' (Fuerte)';
+            } else if (password.length >= 6) {
+                strength = ' (Básica)';
+            }
+            setValidationState(passwordInput, passwordValidation, 'valid', '✅ Contraseña válida' + strength);
+            validationState.password = true;
+        }
+        // Re-validar confirmación si ya tiene contenido
+        if (confirmPasswordInput.value.length > 0) {
+            validateConfirmPassword();
+        }
+        updateSubmitButton();
+    }
+    
+    // Función para validar confirmación de contraseña
+    function validateConfirmPassword() {
+        var password = passwordInput.value;
+        var confirmPassword = confirmPasswordInput.value;
+        
+        if (confirmPassword.length === 0) {
+            setValidationState(confirmPasswordInput, confirmPasswordValidation, 'neutral', '');
+            validationState.confirmPassword = false;
+        } else if (password !== confirmPassword) {
+            setValidationState(confirmPasswordInput, confirmPasswordValidation, 'invalid', '❌ Las contraseñas no coinciden');
+            validationState.confirmPassword = false;
+        } else {
+            setValidationState(confirmPasswordInput, confirmPasswordValidation, 'valid', '✅ Las contraseñas coinciden');
+            validationState.confirmPassword = true;
+        }
+        updateSubmitButton();
+    }
+    
+    // Función auxiliar para establecer estado de validación
+    function setValidationState(input, messageElement, state, message) {
+        input.className = 'input ' + state;
+        messageElement.className = 'validation-message ' + state;
+        messageElement.textContent = message;
+    }
+    
+    // Función para actualizar el botón de submit
+    function updateSubmitButton() {
+        var allValid = validationState.nombre && validationState.email && 
+                      validationState.password && validationState.confirmPassword;
+        registerBtn.disabled = !allValid;
+        
+        if (allValid) {
+            registerBtn.style.opacity = '1';
+            registerBtn.style.cursor = 'pointer';
+        } else {
+            registerBtn.style.opacity = '0.6';
+            registerBtn.style.cursor = 'not-allowed';
+        }
+    }
+    
+    // Event listeners para validación en tiempo real
+    nombreInput.addEventListener('input', validateNombre);
+    nombreInput.addEventListener('blur', validateNombre);
+    
+    emailInput.addEventListener('input', validateEmail);
+    emailInput.addEventListener('blur', validateEmail);
+    
+    passwordInput.addEventListener('input', validatePassword);
+    passwordInput.addEventListener('blur', validatePassword);
+    
+    confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+    confirmPasswordInput.addEventListener('blur', validateConfirmPassword);
+    
+    // Event listener para el formulario
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validationState.nombre && validationState.email && 
+                validationState.password && validationState.confirmPassword) {
+                
+                // Guardar datos del usuario en localStorage
+                localStorage.setItem('nombreUsuario', nombreInput.value.trim());
+                localStorage.setItem('emailUsuario', emailInput.value.trim());
+                localStorage.setItem('usuarioRegistrado', 'true');
+                localStorage.setItem('usuarioLogueado', 'true');
+                
+                // Inicializar puntos y nivel para nuevo usuario
+                localStorage.setItem('puntos', '0');
+                localStorage.setItem('nivel', '1');
+                
+                sound.play();
+                setTimeout(function() {
+                    window.location.href = 'menu.html';
+                }, 500);
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+/* === PÁGINA DE REGISTRO === */
+
+.registro {
+    width: 320px;
+    background: transparent;
+    position: relative;
+}
+
+.registro button {
+    width: 270px;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background-color: #FFD300;
+    font-size: 15px;
+    cursor: pointer;
+}

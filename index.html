@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<head>
+  <html lang="en">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fragmentum</title>
+  <link href='estilos/styles.css' rel='stylesheet'>
+  <link href='estilos/paginas/index.css' rel='stylesheet'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="fondoNumeros"></canvas>
+  <script src="scripts/main.js"></script>
+  <div class="login">
+    <img src="imagenes/logo.png" class="logo" alt="Logo de Fragmentum">
+    
+    <div class="input-container">
+      <input class="input neutral" type="text" data-i18n-placeholder="nombre" placeholder="Nombre" id="loginNombre">
+      <div class="validation-message neutral" id="nombreValidation"></div>
+    </div>
+    
+    <div class="input-container">
+      <input class="input neutral" type="email" data-i18n-placeholder="email" placeholder="Email" id="loginEmail">
+      <div class="validation-message neutral" id="emailValidation"></div>
+    </div>
+    
+    <div class="input-container">
+      <input class="input neutral" type="password" data-i18n-placeholder="contraseña" placeholder="Contraseña" id="loginPassword">
+      <div class="validation-message neutral" id="passwordValidation"></div>
+    </div>
+    
+    <button class="btn" id="loginBtn" data-i18n="iniciarSesion" disabled>Iniciar Sesión</button>
+  <p data-i18n="noTienesCuenta">¿No tenes una cuenta?</p>
+ <a href="registrarse.html" data-i18n="registrarse">Registrarse</a>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var loginBtn = document.getElementById('loginBtn');
+    var sound = new Audio('sonidos/sonido.mp3');
+    
+    // Elementos del formulario
+    var nombreInput = document.getElementById('loginNombre');
+    var emailInput = document.getElementById('loginEmail');
+    var passwordInput = document.getElementById('loginPassword');
+    
+    // Elementos de validación
+    var nombreValidation = document.getElementById('nombreValidation');
+    var emailValidation = document.getElementById('emailValidation');
+    var passwordValidation = document.getElementById('passwordValidation');
+    
+    // Estado de validación
+    var validationState = {
+        nombre: false,
+        email: false,
+        password: false
+    };
+    
+    // Función para validar nombre
+    function validateNombre() {
+        var nombre = nombreInput.value.trim();
+        if (nombre.length === 0) {
+            setValidationState(nombreInput, nombreValidation, 'neutral', '');
+            validationState.nombre = false;
+        } else if (nombre.length < 2) {
+            setValidationState(nombreInput, nombreValidation, 'invalid', '❌ El nombre debe tener al menos 2 caracteres');
+            validationState.nombre = false;
+        } else if (nombre.length > 30) {
+            setValidationState(nombreInput, nombreValidation, 'invalid', '❌ El nombre es demasiado largo');
+            validationState.nombre = false;
+        } else {
+            setValidationState(nombreInput, nombreValidation, 'valid', '✅ Nombre válido');
+            validationState.nombre = true;
+        }
+        updateSubmitButton();
+    }
+    
+    // Función para validar email
+    function validateEmail() {
+        var email = emailInput.value.trim();
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (email.length === 0) {
+            setValidationState(emailInput, emailValidation, 'neutral', '');
+            validationState.email = false;
+        } else if (!emailRegex.test(email)) {
+            setValidationState(emailInput, emailValidation, 'invalid', '❌ Formato de email inválido');
+            validationState.email = false;
+        } else {
+            setValidationState(emailInput, emailValidation, 'valid', '✅ Email válido');
+            validationState.email = true;
+        }
+        updateSubmitButton();
+    }
+    
+    // Función para validar contraseña
+    function validatePassword() {
+        var password = passwordInput.value;
+        if (password.length === 0) {
+            setValidationState(passwordInput, passwordValidation, 'neutral', '');
+            validationState.password = false;
+        } else if (password.length < 6) {
+            setValidationState(passwordInput, passwordValidation, 'invalid', '❌ Mínimo 6 caracteres');
+            validationState.password = false;
+        } else if (password.length > 50) {
+            setValidationState(passwordInput, passwordValidation, 'invalid', '❌ Contraseña demasiado larga');
+            validationState.password = false;
+        } else {
+            setValidationState(passwordInput, passwordValidation, 'valid', '✅ Contraseña válida');
+            validationState.password = true;
+        }
+        updateSubmitButton();
+    }
+    
+    // Función auxiliar para establecer estado de validación
+    function setValidationState(input, messageElement, state, message) {
+        input.className = 'input ' + state;
+        messageElement.className = 'validation-message ' + state;
+        messageElement.textContent = message;
+    }
+    
+    // Función para actualizar el botón de submit
+    function updateSubmitButton() {
+        var allValid = validationState.nombre && validationState.email && validationState.password;
+        loginBtn.disabled = !allValid;
+        
+        if (allValid) {
+            loginBtn.style.opacity = '1';
+            loginBtn.style.cursor = 'pointer';
+        } else {
+            loginBtn.style.opacity = '0.6';
+            loginBtn.style.cursor = 'not-allowed';
+        }
+    }
+    
+    // Event listeners para validación en tiempo real
+    nombreInput.addEventListener('input', validateNombre);
+    nombreInput.addEventListener('blur', validateNombre);
+    
+    emailInput.addEventListener('input', validateEmail);
+    emailInput.addEventListener('blur', validateEmail);
+    
+    passwordInput.addEventListener('input', validatePassword);
+    passwordInput.addEventListener('blur', validatePassword);
+    
+    // Event listener para el botón de login
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function() {
+            if (validationState.nombre && validationState.email && validationState.password) {
+                // Guardar datos del usuario en localStorage
+                localStorage.setItem('nombreUsuario', nombreInput.value.trim());
+                localStorage.setItem('emailUsuario', emailInput.value.trim());
+                localStorage.setItem('usuarioLogueado', 'true');
+                
+                sound.play();
+                setTimeout(function() {
+                    window.location.href = 'menu.html';
+                }, 500);
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href='estilos/styles.css' rel='stylesheet'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet">
+  <title>Álbum Fragmentum</title>
+  <style>
+    :root {
+      --yellow: #FFD300;
+      --yellow-dark: #e6b800;
+      --text: #000;
+      --radius: 25px;
+      --shadow: 0 8px 15px rgba(0, 0, 0, .2);
+    }
+    body {
+      margin: 0;
+      font-family: 'DynaPuff', cursive, sans-serif;
+      color: var(--text);
+      background: linear-gradient(90deg, rgba(253, 57, 161, 1) 0%, rgba(252, 206, 144, 1) 50%, rgba(132, 212, 216, 1) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    h1 {
+      color: black;
+      text-shadow: 0 2px 4px rgba(0,0,0,.2);
+    }
+    .pack-area {
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .pack {
+      width: 180px;
+      height: 220px;
+      margin: 0 auto;
+      border-radius: 16px;
+      background: var(--yellow);
+      box-shadow: 0 10px 20px rgba(0,0,0,.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .btn {
+      margin-top: 15px;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      background-color: var(--yellow);
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      box-shadow: var(--yellow-dark) 0px 10px 0px 0px;
+      transition: all 0.3s ease, transform 0.2s ease;
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: var(--yellow-dark) 0px 7px 0px 0px;
+    }
+    .btn:active,
+    .btn:focus {
+      background-color: var(--yellow);
+      box-shadow: var(--yellow-dark) 0px 5px 0px 0px;
+      transform: translateY(5px) scale(1.05);
+    }
+    .open-area {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+    .cards {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .card {
+      width: 120px;
+      height: 160px;
+      border-radius: 20px;
+      background: white;
+      border: 2px solid black;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      text-align: center;
+      padding: 8px;
+      transition: transform 0.3s ease;
+    }
+    /* Carta mostrada al abrir sobre (estilo extra cuando es masterizada) */
+    .card-figurita.mastered {
+      background: linear-gradient(135deg, #cdd5df 0%, #f1f5f9 50%, #c8d0d9 100%) !important;
+      border: 2px solid #a8b2bd !important;
+      color: #111827 !important;
+      box-shadow: 0 10px 20px rgba(168,178,189,0.4) !important;
+    }
+    .card img {
+      max-width: 100%;
+      max-height: 100px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    dialog {
+      border: 0;
+      border-radius: var(--radius);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, .35);
+      width: min(900px, 95vw);
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    dialog::backdrop {
+      background: rgba(0, 0, 0, .55);
+    }
+    
+    /* Estilos para el modal del sobre */
+    .modal-sobre {
+      width: min(600px, 90vw);
+      height: min(500px, 80vh);
+      padding: 20px;
+    }
+    
+    .modal-sobre-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+    }
+    
+    .sobre-container {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .sobre-imagen-modal {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      user-select: none;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .sobre-modal-pack {
+      width: 200px;
+      height: 250px;
+      border-radius: 18px;
+      background: #FFD300;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      font-weight: bold;
+      font-size: 1.4em;
+      border: 2.5px solid #e6b800;
+      transition: all 0.3s ease;
+    }
+    
+    .sobre-imagen-modal:hover .sobre-modal-pack {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0,0,0,.25);
+    }
+    
+    .sobre-imagen-modal:active .sobre-modal-pack {
+      transform: scale(0.98);
+    }
+    
+    .sobre-texto {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #333;
+      margin: 0;
+    }
+    
+    .figuritas-container {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .figurita-slot {
+      width: 140px;
+      height: 180px;
+      border: 2px solid #ccc;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      transform: scale(0.8) rotateY(90deg);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 8px;
+    }
+    
+    .figurita-slot.aparecer {
+      opacity: 1;
+      transform: scale(1) rotateY(0deg);
+    }
+    
+    .figurita-slot img {
+      max-width: 110px;
+      max-height: 130px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    
+    .figurita-slot .nombre {
+      font-size: 0.8em;
+      font-weight: bold;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    
+    .cerrar-modal {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1.1em;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+    
+    .cerrar-modal.mostrar {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Estilos para estados de figuritas en modal */
+    .estado {
+      font-size: 0.7em;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 8px;
+      margin-top: 3px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    
+    .figurita-slot.nueva {
+      border-color: #FFD300;
+      background: #FFD300;
+    }
+    
+    .figurita-slot.nueva .estado {
+      background: #FFD300;
+      color: black;
+      animation: pulseYellow 2s infinite;
+    }
+    
+    .figurita-slot.repetida {
+      border-color: #f44336;
+      background: #FFD300;
+    }
+    
+    .figurita-slot.repetida .estado {
+      background: #f44336 !important;
+      color: white !important;
+    }
+    
+    /* Texto adicional para cartas masterizadas que también son repetidas */
+    .estado.repetida-adicional {
+      background: #f44336 !important;
+      color: white !important;
+      margin-top: 3px;
+      font-size: 0.6em;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    
+    .figurita-slot.masterizada {
+      border-color: #a8b2bd;
+      background: linear-gradient(135deg, #cdd5df 0%, #f1f5f9 50%, #c8d0d9 100%);
+      box-shadow: 0 4px 16px rgba(168, 178, 189, 0.6);
+    }
+    
+    .figurita-slot.masterizada .estado {
+      background: linear-gradient(135deg, #a8b2bd 0%, #c8d0d9 100%);
+      color: white;
+      font-weight: bold;
+    }
+    
+    .figurita-slot.masterizada-nueva {
+      border-color: #a8b2bd;
+      background: linear-gradient(135deg, #cdd5df 0%, #f1f5f9 50%, #c8d0d9 100%);
+      box-shadow: 0 0 25px rgba(168, 178, 189, 0.8), 0 4px 16px rgba(168, 178, 189, 0.6);
+    }
+    
+    .figurita-slot.masterizada-nueva .estado {
+      background: linear-gradient(45deg, #f1f5f9, #cdd5df);
+      color: #111827;
+      animation: pulseGold 1.5s infinite;
+      font-weight: bold;
+      border: 1px solid #a8b2bd;
+    }
+    
+    @keyframes pulseGreen {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    @keyframes pulseYellow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    @keyframes pulseGold {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .slot {
+      background: rgba(255,255,255,0.3);
+      border: 2px dashed #000;
+      border-radius: 14px;
+      padding: 10px;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: black;
+      font-weight: 700;
+    }
+    .slot img {
+      max-width: 80px;
+      max-height: 80px;
+      margin-bottom: 5px;
+    }
+    .slot.filled {
+      background: var(--yellow);
+      border: 2px solid var(--yellow-dark);
+      color: black;
+      font-weight: bold;
+    }
+    /* --- custom styles below --- */
+    .album-header {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .album-header h1 {
+      font-size: 2.5em;
+      margin: 0;
+      padding: 0.2em 0;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .custom-album-layout {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 520px;
+    }
+    .custom-pack-side {
+      flex: 0 0 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255,255,255,0.32);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+      padding: 38px 18px 0px 18px;
+      min-height: 440px;
+      border: 3px solid #FFD300;
+      margin-top: 10px;
+    }
+    .custom-pack {
+      width: 180px;
+      height: 220px;
+      margin: 0 auto 18px auto;
+      border-radius: 18px;
+      background: var(--yellow);
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      font-weight: bold;
+      font-size: 1.2em;
+      border: 2.5px solid var(--yellow-dark);
+    }
+    
+    .sobre-clickeable {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    
+    .sobre-clickeable:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0,0,0,.25);
+    }
+    
+    .sobre-clickeable:active {
+      transform: scale(0.98);
+    }
+    .custom-sobres-info {
+      margin: 18px 0 10px 0;
+      font-weight: bold;
+      font-size: 1.15em;
+      color: #222;
+      text-shadow: 0 1px 0 #fff, 0 2px 2px #ffd30044;
+    }
+    .custom-btn-pack {
+      margin-top: 12px;
+      width: 90%;
+      font-size: 1.1em;
+      box-shadow: var(--yellow-dark) 0px 7px 0px 0px;
+    }
+    .custom-album-side {
+      flex: 2 1 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255,255,255,0.32);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+      padding: 8px 32px 8px 32px;
+      min-height: 440px;
+      max-width: 950px;
+      border: 3px solid #FFD300;
+      margin-top: 10px;
+    }
+    .custom-album {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .album-paginacion-lateral {
+      width: 100%;
+      position: relative;
+      min-height: 340px;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 0;
+    }
+    .custom-pag-btn-lateral {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      color: #222;
+      font-size: 2.2em;
+      width: 38px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: calc(50% + 10px); /* Ajuste fino para centrar con la grilla */
+      transform: translateY(-50%);
+      z-index: 10;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      transition: color 0.2s;
+      /* Quitar selección de texto accidental */
+      user-select: none;
+    }
+    .custom-pag-btn-lateral:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .borde-izq {
+      left: -40px; /* Pegado al borde amarillo */
+    }
+    .borde-der {
+      right: -40px; /* Pegado al borde amarillo */
+    }
+    .album-grid-paginado {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .custom-paginacion-indicador {
+      margin: 8px 0 0 0;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #222;
+      text-shadow: 0 1px 0 #fff, 0 2px 2px #ffd30044;
+      text-align: center;
+    }
+    .custom-grid {
+  display: grid;
+  /* Flexible: keeps up to 5 columns large screens, shrinks gracefully */
+  grid-template-columns: repeat(auto-fill, minmax(min(140px, 18vw), 1fr));
+  gap: clamp(10px, 1.6vw, 18px);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  min-height: 340px;
+    }
+    .slot {
+      background: rgba(255,255,255,0.38);
+      border: 2.5px dashed #000;
+      border-radius: 16px;
+  padding: 10px 4px 8px 4px;
+  min-height: clamp(90px, 14vh, 120px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: black;
+      font-weight: 700;
+  font-size: clamp(.7rem, .9rem + .2vw, 1.05rem);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      transition: background 0.2s, border 0.2s;
+    }
+    .slot img {
+  max-width: clamp(55px, 7vw, 80px);
+  max-height: clamp(55px, 7vw, 80px);
+      margin-bottom: 5px;
+    }
+    .slot.filled {
+      background: var(--yellow);
+      border: 2.5px solid var(--yellow-dark);
+      color: black;
+      font-weight: bold;
+      box-shadow: 0 4px 16px #ffd30033;
+    }
+    /* Estado MASTERIZADO: plateado */
+    .slot.filled.mastered {
+      background: linear-gradient(135deg, #cdd5df 0%, #f1f5f9 50%, #c8d0d9 100%);
+      border: 2.5px solid #a8b2bd;
+      color: #111827;
+      box-shadow: 0 4px 16px rgba(168, 178, 189, 0.6);
+    }
+    
+    /* Estado REPETIDA: efecto naranja/dorado para indicar que es repetida */
+    .slot.filled.repetida {
+      background: linear-gradient(135deg, #ffb347 0%, #ffd700 50%, #ff8c00 100%);
+      border: 2.5px solid #ff8c00;
+      color: #1a1a1a;
+      box-shadow: 0 4px 16px rgba(255, 140, 0, 0.4);
+      position: relative;
+    }
+    
+    /* Efecto adicional para repetidas */
+    .slot.filled.repetida::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff8c00, #ffd700, #ff8c00);
+      border-radius: 16px;
+      z-index: -1;
+      opacity: 0.3;
+    }
+    .custom-progress {
+      margin-top: 18px;
+      font-size: 1.15em;
+      font-weight: bold;
+      color: #222;
+      text-shadow: 0 1px 0 #fff, 0 2px 2px #ffd30044;
+      text-align: center;
+    }
+    .custom-btn-album {
+      margin-top: 12px;
+      font-size: 1em;
+    }
+    .custom-volver-menu-btn {
+      position: fixed;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: max(16px, env(safe-area-inset-left));
+      z-index: 1000;
+      width: 54px;
+      height: 54px;
+      font-size: 2em;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+    <canvas id="fondoNumeros"></canvas>
+
+  <div class="album-header">
+    <h1><span data-i18n="albumFragmentum">Álbum Fragmentum</span> <span id="albumProgress">(0%)</span></h1>
+  </div>
+  <div class="album-layout custom-album-layout">
+    <div class="pack-side custom-pack-side">
+      <div id="sobreContainer">
+        <div class="pack custom-pack" id="sobreCard">Sobre</div>
+      </div>
+      <div id="sobresInfo" class="sobres-info custom-sobres-info"><span data-i18n="sobresDisponibles">Sobres disponibles:</span> <span id="sobresCount">0</span></div>
+      <button class="btn custom-btn-pack" id="openPack" data-i18n="abrirSobre">Abrir sobre (x3)</button>
+    </div>
+    <div class="album-side custom-album-side">
+      <div class="album custom-album">
+        <div class="album-paginacion-lateral">
+          <button class="custom-pag-btn-lateral borde-izq" id="pagPrev"><</button>
+          <div class="album-grid-paginado">
+            <div class="custom-paginacion-indicador">
+              <span id="pagActual">1</span> / <span id="pagTotal">2</span>
+            </div>
+            <!-- Progreso y botón 'Ver álbum grande' ocultos por pedido del usuario -->
+            <div id="progress" class="custom-progress" style="display:none">Progreso: 0%</div>
+            <button class="btn custom-btn-album" id="btnAlbum" style="display:none">Ver álbum grande</button>
+            <div class="grid custom-grid" id="slots"></div>
+          </div>
+          <button class="custom-pag-btn-lateral borde-der" id="pagNext">></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn volver-menu-btn custom-volver-menu-btn" id="volverMenu">⬅</button>
+
+  <dialog id="dlgAlbum">
+    <div class="album">
+      <div class="album-paginacion">
+        <button class="btn pag-btn" id="pagPrevDialog" style="margin-right:10px;">⬅</button>
+        <span id="pagActualDialog">1</span> / <span id="pagTotalDialog">2</span>
+        <button class="btn pag-btn" id="pagNextDialog" style="margin-left:10px;">➡</button>
+      </div>
+      <div class="grid" id="slotsDialog"></div>
+      <div id="progressDialog" style="margin-top:18px;">Progreso: 0%</div>
+      <button class="btn" id="closeAlbum">Cerrar</button>
+    </div>
+  </dialog>
+
+  <!-- Modal para abrir sobre -->
+  <dialog id="dlgSobre" class="modal-sobre">
+    <div class="modal-sobre-content">
+      <div class="sobre-container">
+        <div class="sobre-imagen-modal" id="sobreImagenModal">
+          <div class="sobre-modal-pack">Sobre</div>
+        </div>
+        <p class="sobre-texto">¡Haz clic en el sobre para abrirlo!</p>
+      </div>
+      <div class="figuritas-container" id="figuritasContainer" style="display: none;">
+        <div class="figurita-slot" id="figurita1">
+          <!-- Primera figurita aparecerá aquí -->
+        </div>
+        <div class="figurita-slot" id="figurita2">
+          <!-- Segunda figurita aparecerá aquí -->
+        </div>
+        <div class="figurita-slot" id="figurita3">
+          <!-- Tercera figurita aparecerá aquí -->
+        </div>
+      </div>
+      <button class="btn cerrar-modal" id="cerrarModalSobre" style="display: none;">Continuar</button>
+    </div>
+  </dialog>
+
+  <script>
+     const CHARACTERS = [
+      { name: 'Balerina', img: 'brainrots/Balerina2.webp' },
+      { name: 'Bombardiro Crocodilo', img: 'brainrots/Bombardiro_Crocodilo.webp' },
+      { name: 'Bombombini Gusini', img: 'brainrots/Bombombini_Gusini.webp' },
+      { name: 'Brr Brr Patapim', img: 'brainrots/Brr_Brr_Patapim2.webp' },
+      { name: 'Burbaloni', img: 'brainrots/Burbaloni.webp' },
+      { name: 'Cappucino', img: 'brainrots/Cappucino.webp' },
+      { name: 'Chimpanzini Bananini', img: 'brainrots/Chimpanzini_Bananini.webp' },
+      { name: 'Cocofanto Elefanto', img: 'brainrots/Cocofanto_Elefanto.webp' },
+      { name: 'Dragon Cannelloni', img: 'brainrots/Dragon_Cannelloni.webp' },
+      { name: 'Frigocamelo', img: 'brainrots/Frigocamelo.webp' },
+      { name: 'Garamadundung', img: 'brainrots/Garamadundung.webp' },
+      { name: 'Karkerkarkurkur', img: 'brainrots/Karkerkarkurkur.webp' },
+      { name: 'La Grande Combinasion', img: 'brainrots/La_Grande_Combinasion.webp' },
+      { name: 'La Vacca Saturno Saturnita', img: 'brainrots/La_Vacca_Saturno_Saturnita.webp' },
+      { name: 'Liliri Lalira', img: 'brainrots/Liliri_Lalira.webp' },
+      { name: 'Matteo', img: 'brainrots/Matteo.webp' },
+      { name: 'Odin Din Din Dun', img: 'brainrots/Odin_Din_Din_Dun.webp' },
+      { name: 'Los Profesorinis', img: 'brainrots/losprofesorinis.png' },
+      { name: 'Tralalero Tralala', img: 'brainrots/Tralalero_Tralala.webp' },
+      { name: 'Trenostruzzo Turbo 3000', img: 'brainrots/Trenostruzzo_Turbo_3000.webp' },
+      { name: 'Trippi Troppi Troppa Trippa', img: 'brainrots/Trippi_Troppi_Troppa_Trippa.webp' },
+      { name: 'Trippi Troppi', img: 'brainrots/Trippi_Troppi.webp' },
+      { name: 'Trulimero', img: 'brainrots/Trulimero.webp' },
+      { name: 'Tung Tung Tung Sahur', img: 'brainrots/Tung_Tung_Tung_Sahur.webp' },
+      { name: 'Boneca Ambalabu', img: 'brainrots/Boneca_Ambalabu.webp' },
+      { name: 'Brri-Brri-Bicus-Dicus-Bombicus', img: 'brainrots/Brri-Brri-Bicus-Dicus-Bombicus.webp' },
+      { name: 'Girafa Celestre', img: 'brainrots/Girafa_Celestre.webp' },
+      { name: 'La Supreme Combinasion', img: 'brainrots/La_Supreme_Combinasion.webp' },
+      { name: 'Los Combinasionas', img: 'brainrots/Los_Combinasionas.webp' },
+      { name: 'Sigma Boy', img: 'brainrots/Sigma_Boy.webp' },
+      { name: 'Nuclearo Dinosaurio', img: 'brainrots/nuclearo.webp' },
+      { name: 'Kekini tortini', img: 'brainrots/kekini.png' },
+      { name: 'Six Seven', img: 'brainrots/Yess.webp' },
+      { name: 'te te te sahur', img: 'brainrots/Te_Te_Te_Sahur.webp' },
+      { name: 'Leru Leru Leru', img: 'brainrots/leru-leru-leru.webp' },
+      { name: 'Las Tralaleritas', img: 'brainrots/LasTralaleritas.webp' },
+      { name: 'Chicletera bicicletera', img: 'brainrots/chicleteira.webp' },
+      { name: 'Glorbo Fruttrodillo', img: 'brainrots/glorbofruttodrillo.webp' },
+      { name: 'Esok Sekolah', img: 'brainrots/EsokSekolah2.webp' },
+      { name: 'pakrahmatmamat', img: 'brainrots/Pakrah.webp' },
+      { name: 'Balerino lololo', img: 'brainrots/Ballerinolololo.webp' },
+      { name: 'Los Matteos', img: 'brainrots/LosMatteos.webp' },
+      { name: 'Spaghetti tualetti', img: 'brainrots/Spaghettitualetti.webp' },
+      { name: 'Pipi potato', img: 'brainrots/pipipotato.webp' },
+      { name: 'wawino ananan', img: 'brainrots/wawi.png' },
+    ];
+
+  // Total único de cartas (por nombre), para progreso y completar álbum
+  const TOTAL_UNIQUE = (function(){
+    const s = new Set(CHARACTERS.map(c => c.name));
+    return s.size;
+  })();
+
+  const owned = new Set();
+  // Modo master: se activa al completar el álbum una vez
+  let masterMode = JSON.parse(localStorage.getItem('masterMode') || 'false');
+  const mastered = new Set(JSON.parse(localStorage.getItem('mastered') || '[]'));
+  // Cartas masterizadas por primera vez en el sobre actual (para no mostrar "Repetido")
+  let newlyMasteredPack = new Set();
+  let lastPack = [];
+  let sobres = 0;
+  const el = id => document.getElementById(id);
+
+  // Función para verificar qué imágenes no cargan
+  function verificarImagenes() {
+    console.log('=== VERIFICANDO IMÁGENES ===');
+    CHARACTERS.forEach(c => {
+      const img = new Image();
+      img.onload = function() {
+        console.log('✅ OK:', c.img);
+      };
+      img.onerror = function() {
+        console.log('❌ ERROR:', c.img, 'para', c.name);
+        // Intentar con ruta alternativa
+        const altImg = new Image();
+        altImg.onload = function() {
+          console.log('✅ ALTERNATIVA OK:', './' + c.img);
+          // Actualizar la ruta en el objeto
+          c.img = './' + c.img;
+        };
+        altImg.onerror = function() {
+          console.log('❌ ALTERNATIVA TAMBIÉN FALLA:', './' + c.img);
+        };
+        altImg.src = './' + c.img;
+      };
+      img.src = c.img;
+    });
+  }
+
+  // Función para precargar todas las imágenes
+  function precargarImagenes() {
+    CHARACTERS.forEach(c => {
+      const img = new Image();
+      img.src = c.img;
+    });
+  }
+
+    function randomFrom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    let pendingPack = [];
+    let lastOwnedBefore = new Set(); // Para usar en el modal
+    function openPack() {
+      if (sobres <= 0) {
+        alert('No tienes sobres disponibles. Consigue más completando logros o niveles.');
+        return;
+      }
+      sobres--;
+      saveSobres();
+      updateSobresUI();
+      lastPack = [];
+      pendingPack = [];
+      newlyMasteredPack = new Set();
+      const ownedBefore = new Set(owned);
+      lastOwnedBefore = ownedBefore; // Guardar para el modal
+      const masteredBefore = new Set(mastered);
+      for (let i = 0; i < 3; i++) {
+        const c = randomFrom(CHARACTERS);
+        lastPack.push(c);
+      }
+      // Determinar si con este sobre se completa el álbum
+  const prospectiveOwned = new Set([...ownedBefore, ...lastPack.map(x => x.name)]);
+  const willBeComplete = prospectiveOwned.size >= TOTAL_UNIQUE;
+
+      // Si ya está el modo master o se completa con este sobre, masterizar duplicadas del pack
+      if (masterMode || willBeComplete) {
+        lastPack.forEach(c => {
+          if (ownedBefore.has(c.name)) {
+            // Si no estaba masterizada antes, ahora se masteriza (primera vez en este sobre)
+            if (!masteredBefore.has(c.name)) {
+              newlyMasteredPack.add(c.name);
+            }
+            mastered.add(c.name);
+          }
+        });
+      }
+      lastPack.forEach(c => owned.add(c.name));
+      localStorage.setItem('owned', JSON.stringify([...owned]));
+      // Activar modo master inmediatamente si se completó con este sobre
+      if (!masterMode && owned.size >= TOTAL_UNIQUE) {
+        masterMode = true;
+        localStorage.setItem('masterMode', 'true');
+      }
+      if (mastered.size) {
+        localStorage.setItem('mastered', JSON.stringify([...mastered]));
+      }
+      updateAlbum();
+      checkProgressBonus(); // Verificar bonus de progreso
+      pendingPack = [lastPack[0], lastPack[1], lastPack[2]];
+      // No mostrar automáticamente las figuritas, el modal se encarga de eso
+    }
+
+    // Funciones para el modal del sobre
+    function abrirModalSobre() {
+      if (sobres <= 0) {
+        alert('No tienes sobres disponibles. Consigue más completando logros o niveles.');
+        return;
+      }
+      
+      // Preparar el sobre (generar las cartas)
+      openPack();
+      
+      // Resetear el modal
+      document.getElementById('sobreImagenModal').style.display = 'block';
+      document.getElementById('figuritasContainer').style.display = 'none';
+      document.getElementById('cerrarModalSobre').style.display = 'none';
+      document.querySelector('.sobre-texto').style.display = 'block';
+      
+      // Mostrar el modal
+      document.getElementById('dlgSobre').showModal();
+    }
+
+    function abrirSobreAnimacion() {
+      // Ocultar el sobre y el texto
+      document.getElementById('sobreImagenModal').style.display = 'none';
+      document.querySelector('.sobre-texto').style.display = 'none';
+      
+      // Mostrar contenedor de figuritas
+      const figuritasContainer = document.getElementById('figuritasContainer');
+      figuritasContainer.style.display = 'flex';
+      
+      // Crear las figuritas en los slots
+      crearFiguritasEnModal();
+      
+      // Animación secuencial de aparición
+      setTimeout(() => mostrarFigurita(0), 300);
+      setTimeout(() => mostrarFigurita(1), 800);
+      setTimeout(() => mostrarFigurita(2), 1300);
+      setTimeout(() => mostrarBotonContinuar(), 2000);
+    }
+
+    function crearFiguritasEnModal() {
+      const figurita1 = document.getElementById('figurita1');
+      const figurita2 = document.getElementById('figurita2');
+      const figurita3 = document.getElementById('figurita3');
+      
+      // Limpiar contenido previo
+      figurita1.innerHTML = '';
+      figurita2.innerHTML = '';
+      figurita3.innerHTML = '';
+      
+      // Crear primera figurita
+      if (pendingPack[0]) {
+        const c1 = pendingPack[0];
+        const isPackDup1 = (pendingPack.filter(x => x.name === c1.name).length > 1 && pendingPack.findIndex(x => x.name === c1.name) !== 0);
+        const isPrevOwned1 = lastOwnedBefore.has(c1.name);
+        const isDup1 = isPrevOwned1 || isPackDup1;
+        const isNewMastered1 = masterMode && newlyMasteredPack.has(c1.name);
+        const isMastered1 = mastered.has(c1.name) || isNewMastered1;
+        
+        let estadoTexto1 = '';
+        let claseEstado1 = '';
+        
+        if (isNewMastered1) {
+          estadoTexto1 = '<div class="estado masterizada-nueva">¡MASTERIZADA!</div>';
+          claseEstado1 = 'masterizada-nueva';
+          // Si también es repetida, agregar el texto adicional
+          if (isDup1) {
+            estadoTexto1 += '<div class="estado repetida-adicional">REPETIDA</div>';
+          }
+        } else if (isMastered1) {
+          estadoTexto1 = '<div class="estado masterizada">MASTERIZADA</div>';
+          claseEstado1 = 'masterizada';
+          // Si también es repetida, agregar el texto adicional
+          if (isDup1) {
+            estadoTexto1 += '<div class="estado repetida-adicional">REPETIDA</div>';
+          }
+        } else if (isDup1) {
+          estadoTexto1 = '<div class="estado repetida">REPETIDA</div>';
+          claseEstado1 = 'repetida';
+        } else {
+          estadoTexto1 = '<div class="estado nueva">¡NUEVA!</div>';
+          claseEstado1 = 'nueva';
+        }
+        
+        figurita1.innerHTML = `
+          <img src="${c1.img}" alt="${c1.name}" onerror="this.style.display='none'">
+          <div class="nombre">${c1.name}</div>
+          ${estadoTexto1}
+        `;
+        figurita1.className = `figurita-slot ${claseEstado1}`;
+      }
+      
+      // Crear segunda figurita
+      if (pendingPack[1]) {
+        const c2 = pendingPack[1];
+        const isPackDup2 = (pendingPack.filter(x => x.name === c2.name).length > 1 && pendingPack.findIndex(x => x.name === c2.name) !== 1);
+        const isPrevOwned2 = lastOwnedBefore.has(c2.name);
+        const isDup2 = isPrevOwned2 || isPackDup2;
+        const isNewMastered2 = masterMode && newlyMasteredPack.has(c2.name);
+        const isMastered2 = mastered.has(c2.name) || isNewMastered2;
+        
+        let estadoTexto2 = '';
+        let claseEstado2 = '';
+        
+        if (isNewMastered2) {
+          estadoTexto2 = '<div class="estado masterizada-nueva">¡MASTERIZADA!</div>';
+          claseEstado2 = 'masterizada-nueva';
+          // Si también es repetida, agregar el texto adicional
+          if (isDup2) {
+            estadoTexto2 += '<div class="estado repetida-adicional">REPETIDA</div>';
+          }
+        } else if (isMastered2) {
+          estadoTexto2 = '<div class="estado masterizada">MASTERIZADA</div>';
+          claseEstado2 = 'masterizada';
+          // Si también es repetida, agregar el texto adicional
+          if (isDup2) {
+            estadoTexto2 += '<div class="estado repetida-adicional">REPETIDA</div>';
+          }
+        } else if (isDup2) {
+          estadoTexto2 = '<div class="estado repetida">REPETIDA</div>';
+          claseEstado2 = 'repetida';
+        } else {
+          estadoTexto2 = '<div class="estado nueva">¡NUEVA!</div>';
+          claseEstado2 = 'nueva';
+        }
+        
+        figurita2.innerHTML = `
+          <img src="${c2.img}" alt="${c2.name}" onerror="this.style.display='none'">
+          <div class="nombre">${c2.name}</div>
+          ${estadoTexto2}
+        `;
+        figurita2.className = `figurita-slot ${claseEstado2}`;
+      }
+      
+      // Crear tercera figurita
+      if (pendingPack[2]) {
+        const c3 = pendingPack[2];
+        const isPackDup3 = (pendingPack.filter(x => x.name === c3.name).length > 1 && pendingPack.findIndex(x => x.name === c3.name) !== 2);
+        const isPrevOwned3 = lastOwnedBefore.has(c3.name);
+        const isDup3 = isPrevOwned3 || isPackDup3;
+        const isNewMastered3 = masterMode && newlyMasteredPack.has(c3.name);
+        const isMastered3 = mastered.has(c3.name) || isNewMastered3;
+        
+        let estadoTexto3 = '';
+        let claseEstado3 = '';
+        
+        if (isNewMastered3) {
+          estadoTexto3 = '<div class="estado masterizada-nueva">¡MASTERIZADA!</div>';
+          claseEstado3 = 'masterizada-nueva';
+          // Si también es repetida, agregar el texto adicional
+          if (isDup3) {
+            estadoTexto3 += '<div class="estado repetida-adicional">REPETIDA</div>';
+          }
+        } else if (isMastered3) {
+          estadoTexto3 = '<div class="estado masterizada">MASTERIZADA</div>';
+          claseEstado3 = 'masterizada';
+          // Si también es repetida, agregar el texto adicional
+          if (isDup3) {
+            estadoTexto3 += '<div class="estado repetida-adicional">REPETIDA</div>';
+          }
+        } else if (isDup3) {
+          estadoTexto3 = '<div class="estado repetida">REPETIDA</div>';
+          claseEstado3 = 'repetida';
+        } else {
+          estadoTexto3 = '<div class="estado nueva">¡NUEVA!</div>';
+          claseEstado3 = 'nueva';
+        }
+        
+        figurita3.innerHTML = `
+          <img src="${c3.img}" alt="${c3.name}" onerror="this.style.display='none'">
+          <div class="nombre">${c3.name}</div>
+          ${estadoTexto3}
+        `;
+        figurita3.className = `figurita-slot ${claseEstado3}`;
+      }
+    }
+
+    function mostrarFigurita(index) {
+      const figuritaSlot = document.getElementById(`figurita${index + 1}`);
+      if (figuritaSlot) {
+        figuritaSlot.classList.add('aparecer');
+      }
+    }
+
+    function mostrarBotonContinuar() {
+      const boton = document.getElementById('cerrarModalSobre');
+      boton.style.display = 'block';
+      setTimeout(() => {
+        boton.classList.add('mostrar');
+      }, 100);
+    }
+
+    function cerrarModalSobre() {
+      const modal = document.getElementById('dlgSobre');
+      modal.close();
+      
+      // Limpiar clases de animación
+      document.getElementById('figurita1').classList.remove('aparecer');
+      document.getElementById('figurita2').classList.remove('aparecer');
+      document.getElementById('figurita3').classList.remove('aparecer');
+      document.getElementById('cerrarModalSobre').classList.remove('mostrar');
+      
+      // Simplemente mostrar el sobre nuevamente sin figuritas
+      mostrarSobre();
+    }
+
+    // Mostrar la figurita en el lugar del sobre
+    function mostrarFiguritaEnSobre(idx, ownedBefore = new Set()) {
+      const sobreContainer = el('sobreContainer');
+      sobreContainer.innerHTML = '';
+      if (pendingPack[idx]) {
+        const c = pendingPack[idx];
+        const isPackDup = (pendingPack.filter(x => x.name === c.name).length > 1 && pendingPack.findIndex(x => x.name === c.name) !== idx);
+        const isPrevOwned = ownedBefore.has(c.name);
+        const isDup = isPrevOwned || isPackDup;
+        // Ocultar "(Repetido)" sólo si esta carta se masteriza por PRIMERA vez en este sobre
+        const hideRepetido = masterMode && newlyMasteredPack.has(c.name);
+        const div = document.createElement('div');
+        div.className = 'card card-figurita flip-in-figurita';
+        div.style.cursor = 'pointer';
+        div.style.width = '180px';
+        div.style.height = '220px';
+        // Estilo plateado si la carta ya está masterizada (antes o a partir de este sobre)
+        if (mastered.has(c.name)) {
+          div.classList.add('mastered');
+        }
+        // Crear la imagen de manera más robusta
+        const imgElement = document.createElement('img');
+        imgElement.src = c.img;
+        imgElement.alt = c.name;
+        imgElement.style.cssText = 'max-width:100px;max-height:100px;border-radius:10px;margin-bottom:5px;object-fit:cover;display:block;margin-left:auto;margin-right:auto;';
+        
+        const nameDiv = document.createElement('div');
+        nameDiv.style.cssText = 'font-size:1.1em;font-weight:bold;margin-top:4px;';
+        nameDiv.textContent = c.name;
+        
+        div.appendChild(imgElement);
+        div.appendChild(nameDiv);
+        
+        if (isDup && !hideRepetido) {
+          const dupDiv = document.createElement('small');
+          dupDiv.style.color = '#b00';
+          dupDiv.textContent = '(Repetido)';
+          div.appendChild(dupDiv);
+        }
+        
+        if (mastered.has(c.name)) {
+          const masteredDiv = document.createElement('div');
+          masteredDiv.style.cssText = 'margin-top:4px;font-size:.85em;color:#374151;background:rgba(255,255,255,.7);padding:2px 8px;border-radius:10px;display:inline-block;';
+          masteredDiv.textContent = 'Masterizado';
+          div.appendChild(masteredDiv);
+        }
+        div.title = idx === 0 ? 'Toca para ver la siguiente figurita' : 'Toca para volver al sobre';
+        div.addEventListener('click', function() {
+          if (idx === 0 && pendingPack.length > 1) {
+            mostrarFiguritaEnSobre(1, ownedBefore);
+          } else {
+            mostrarSobre();
+          }
+        });
+        sobreContainer.appendChild(div);
+      }
+    }
+
+    function mostrarSobre() {
+      const sobreContainer = el('sobreContainer');
+      sobreContainer.innerHTML = '<div class="pack custom-pack sobre-clickeable" id="sobreCard">Sobre</div>';
+      
+      // Agregar evento click al sobre para abrir el modal
+      const sobreElement = document.getElementById('sobreCard');
+      if (sobreElement) {
+        sobreElement.addEventListener('click', function() {
+          if (sobres > 0) {
+            abrirModalSobre();
+          } else {
+            alert('No tienes sobres disponibles. Consigue más completando logros o niveles.');
+          }
+        });
+      }
+    }
+    function updateSobresUI() {
+      el('sobresCount').textContent = sobres;
+      el('openPack').disabled = sobres <= 0;
+    }
+
+    function saveSobres() {
+      localStorage.setItem('sobres', sobres);
+    }
+
+    function addSobres(n) {
+      sobres += n;
+      saveSobres();
+      updateSobresUI();
+    }
+    
+    // Verificar bonus de progreso del álbum
+    function checkProgressBonus() {
+      const progress = (owned.size / TOTAL_UNIQUE) * 100;
+      const milestones = [25, 50, 75, 90]; // Porcentajes para bonus
+      const bonusKey = 'progressBonus_';
+      
+      milestones.forEach(milestone => {
+        if (progress >= milestone && !localStorage.getItem(bonusKey + milestone)) {
+          let bonus = 0;
+          if (milestone === 25) bonus = 5;      // 25% = 5 sobres
+          else if (milestone === 50) bonus = 8; // 50% = 8 sobres
+          else if (milestone === 75) bonus = 12; // 75% = 12 sobres
+          else if (milestone === 90) bonus = 15; // 90% = 15 sobres
+          
+          sobres += bonus;
+          localStorage.setItem(bonusKey + milestone, 'true');
+          saveSobres();
+          updateSobresUI();
+          
+          // Mostrar notificación
+          alert(`¡Felicidades! Has completado el ${milestone}% del álbum. ¡${bonus} sobres bonus otorgados!`);
+          console.log(`Bonus de progreso: ${milestone}% = ${bonus} sobres`);
+        }
+      });
+    }
+
+    function renderPack(ownedBefore = new Set()) {
+      const wrap = el('cards');
+      wrap.innerHTML = '';
+      // Contar cuántas veces sale cada figurita en el sobre
+      const count = {};
+      lastPack.forEach(c => {
+        count[c.name] = (count[c.name] || 0) + 1;
+      });
+      lastPack.forEach((c, idx) => {
+        // Es repetido si ya estaba en el álbum antes de abrir el sobre, o si sale más de una vez en el mismo sobre
+        const isDup = ownedBefore.has(c.name) || count[c.name] > 1 && lastPack.findIndex(x => x.name === c.name) !== idx;
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          ${c.img ? `<img src="${c.img}" alt="${c.name}">` : ''}
+          ${c.name} ${isDup ? '<br><small>(Repetido)</small>' : ''}
+        `;
+        wrap.appendChild(div);
+      });
+    }
+
+
+
+    let pagActual = 1;
+    const porPagina = 15;
+    function updateAlbum() {
+      // Vista normal
+      const container = el('slots');
+      container.innerHTML = '';
+  const totalPag = 3;
+  el('pagTotal').textContent = totalPag;
+      el('pagActual').textContent = pagActual;
+      const start = (pagActual - 1) * porPagina;
+      const end = start + porPagina;
+      CHARACTERS.slice(start, end).forEach((c, i) => {
+        const div = document.createElement('div');
+        let cls = 'slot';
+        if (owned.has(c.name)) {
+          cls += ' filled';
+          if (mastered.has(c.name)) {
+            cls += ' mastered';
+          } else {
+            // Verificar si es repetida (no masterizada pero la tenemos)
+            // En el contexto del álbum, consideramos "repetida" a las que tenemos pero no están masterizadas
+            // cuando el modo master está activo
+            if (masterMode) {
+              cls += ' repetida';
+            }
+          }
+        }
+        div.className = cls;
+        if (owned.has(c.name)) {
+          const imgElement = document.createElement('img');
+          imgElement.src = c.img;
+          imgElement.alt = c.name;
+          imgElement.style.cssText = 'object-fit:cover;max-width:100%;max-height:80px;';
+          div.appendChild(imgElement);
+          
+          const nameDiv = document.createElement('div');
+          nameDiv.textContent = c.name;
+          div.appendChild(nameDiv);
+        } else {
+          div.textContent = (start + i + 1);
+        }
+        container.appendChild(div);
+      });
+      // Si estamos en la página 3, mostrar los espacios vacíos del 31 al 45
+      if (pagActual === 3) {
+        for (let i = CHARACTERS.length + 1; i <= 45; i++) {
+          const div = document.createElement('div');
+          div.className = 'slot';
+          div.innerHTML = i;
+          container.appendChild(div);
+        }
+      }
+  const pct = Math.round((owned.size / TOTAL_UNIQUE) * 100);
+  el('progress').textContent = `Progreso: ${pct}% (${owned.size}/${TOTAL_UNIQUE})`;
+  
+  // Actualizar porcentaje en el título
+  el('albumProgress').textContent = `(${pct}%)`;
+
+      // Vista grande (modal)
+      const containerDialog = el('slotsDialog');
+      if (containerDialog) {
+  let pagActualDialog = parseInt(el('pagActualDialog').textContent) || 1;
+  const totalPagDialog = 3;
+  el('pagTotalDialog').textContent = totalPagDialog;
+        const startD = (pagActualDialog - 1) * porPagina;
+        const endD = startD + porPagina;
+        containerDialog.innerHTML = '';
+        CHARACTERS.slice(startD, endD).forEach((c, i) => {
+          const div = document.createElement('div');
+          let cls = 'slot';
+          if (owned.has(c.name)) {
+            cls += ' filled';
+            if (mastered.has(c.name)) {
+              cls += ' mastered';
+            } else {
+              // Verificar si es repetida en el modal también
+              if (masterMode) {
+                cls += ' repetida';
+              }
+            }
+          }
+          div.className = cls;
+          if (owned.has(c.name)) {
+            const imgElement = document.createElement('img');
+            imgElement.src = c.img;
+            imgElement.alt = c.name;
+            imgElement.style.cssText = 'object-fit:cover;max-width:100%;max-height:80px;';
+            div.appendChild(imgElement);
+            
+            const nameDiv = document.createElement('div');
+            nameDiv.textContent = c.name;
+            div.appendChild(nameDiv);
+          } else {
+            div.textContent = (startD + i + 1);
+          }
+          containerDialog.appendChild(div);
+        });
+        // Si estamos en la página 3 del modal, mostrar los espacios vacíos del 31 al 45
+        if (pagActualDialog === 3) {
+          for (let i = CHARACTERS.length + 1; i <= 45; i++) {
+            const div = document.createElement('div');
+            div.className = 'slot';
+            div.innerHTML = i;
+            containerDialog.appendChild(div);
+          }
+        }
+  el('progressDialog').textContent = `Progreso: ${pct}% (${owned.size}/${TOTAL_UNIQUE})`;
+      }
+    }
+
+    function loadProgress() {
+      const saved = JSON.parse(localStorage.getItem('owned') || '[]');
+      saved.forEach(c => owned.add(c));
+      sobres = parseInt(localStorage.getItem('sobres') || '0', 10);
+      
+      // Sobres de bienvenida para nuevos jugadores
+      if (!localStorage.getItem('sobresIniciales')) {
+        sobres += 10; // 10 sobres de bienvenida
+        localStorage.setItem('sobresIniciales', 'true');
+        localStorage.setItem('sobres', sobres);
+        console.log('¡10 sobres de bienvenida otorgados!');
+      }
+      
+      // Activar modo master si se completó el álbum y aún no se activó
+      if (!masterMode && owned.size >= TOTAL_UNIQUE) {
+        masterMode = true;
+        localStorage.setItem('masterMode', 'true');
+      }
+      updateAlbum();
+      updateSobresUI();
+    }
+
+  el('openPack').addEventListener('click', function() {
+    abrirModalSobre();
+  });
+
+    // Paginación normal
+    el('pagPrev').addEventListener('click', () => {
+      if (pagActual > 1) {
+        pagActual--;
+        updateAlbum();
+      }
+    });
+    el('pagNext').addEventListener('click', () => {
+      const totalPag = 3;
+      if (pagActual < totalPag) {
+        pagActual++;
+        updateAlbum();
+      }
+    });
+
+    // Paginación modal
+    el('pagPrevDialog').addEventListener('click', () => {
+      let pag = parseInt(el('pagActualDialog').textContent);
+      if (pag > 1) {
+        el('pagActualDialog').textContent = pag - 1;
+        updateAlbum();
+      }
+    });
+    el('pagNextDialog').addEventListener('click', () => {
+      let pag = parseInt(el('pagActualDialog').textContent);
+      const totalPag = 3;
+      if (pag < totalPag) {
+        el('pagActualDialog').textContent = pag + 1;
+        updateAlbum();
+      }
+    });
+
+    const dlg = el('dlgAlbum');
+    el('btnAlbum').addEventListener('click', () => {
+      // Sincronizar paginación modal con la normal
+      el('pagActualDialog').textContent = pagActual;
+      updateAlbum();
+      dlg.showModal();
+    });
+    el('closeAlbum').addEventListener('click', () => dlg.close());
+
+  loadProgress();
+
+  // Inicializar sobre clickeable
+  mostrarSobre();
+
+  // Precargar y verificar imágenes al cargar
+  precargarImagenes();
+  verificarImagenes();
+
+  // Permitir que otras páginas sumen sobres
+  window.addSobres = addSobres;
+
+  // Botón para volver al menú
+  el('volverMenu').addEventListener('click', function() {
+    window.location.href = 'menu.html';
+  });
+
+  // Event listeners para el modal del sobre
+  document.getElementById('sobreImagenModal').addEventListener('click', abrirSobreAnimacion);
+  document.getElementById('cerrarModalSobre').addEventListener('click', cerrarModalSobre);
+
+  // Cerrar modal al hacer clic fuera de él
+  document.getElementById('dlgSobre').addEventListener('click', function(e) {
+    if (e.target === this) {
+      cerrarModalSobre();
+    }
+  });
+
+  </script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>

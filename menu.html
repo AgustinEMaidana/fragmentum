@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<head>
+    <html lang="es">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragmentum - Menú</title>
+<link href='estilos/styles.css' rel='stylesheet'>
+<link href='estilos/paginas/menu.css' rel='stylesheet'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <canvas id="fondoNumeros"></canvas>
+    
+    <!-- Perfil de usuario en la esquina superior derecha -->
+    <div class="user-profile">
+        <div class="profile-avatar">
+            <img src="imagenes/logo.png" alt="Avatar" class="avatar-img">
+        </div>
+        <span class="profile-name" id="profileName" data-i18n="usuario">Usuario</span>
+    </div>
+
+<!-- Modal de perfil de usuario -->
+<div id="modalPerfil" class="modal" style="display: none;">
+    <div class="profile-modal">
+        <span class="close" onclick="cerrarModalPerfil()">✖</span>
+        <h3 data-i18n="perfilUsuario">Perfil de Usuario</h3>
+        
+        <div class="profile-info">
+            <div class="profile-photo-container">
+                <img id="profilePhoto" src="imagenes/logo.png" alt="Foto de perfil" class="profile-photo">
+                <button class="change-photo-btn" onclick="cambiarFoto()">📷</button>
+                <input type="file" id="photoInput" accept="image/*" style="display: none;">
+            </div>
+            
+            <div class="profile-details">
+                <div class="profile-field">
+                    <label data-i18n="nombre">Nombre:</label>
+                    <span id="modalNombre">Usuario</span>
+                    <button class="edit-btn" onclick="document.getElementById('editModalTitle').textContent='Editar Nombre'; document.getElementById('editModalLabel').textContent='Nombre:'; document.getElementById('editInput').value=localStorage.getItem('nombreUsuario')||''; document.getElementById('modalEdicion').style.display='flex'; document.getElementById('editInput').setAttribute('data-field','nombre');">✏️</button>
+                </div>
+                
+                <div class="profile-field">
+                    <label>Email:</label>
+                    <span id="modalEmail">No disponible</span>
+                    <button class="edit-btn" onclick="document.getElementById('editModalTitle').textContent='Editar Email'; document.getElementById('editModalLabel').textContent='Email:'; document.getElementById('editInput').value=(localStorage.getItem('emailUsuario')||'')=='jugador@ejemplo.com'?'':localStorage.getItem('emailUsuario')||''; document.getElementById('modalEdicion').style.display='flex'; document.getElementById('editInput').setAttribute('data-field','email');">✏️</button>
+                </div>
+                
+                <div class="profile-field">
+                    <label data-i18n="puntos">Puntos:</label>
+                    <span id="modalPuntos">0</span>
+                </div>
+                
+                <div class="profile-field">
+                    <label data-i18n="nivel">Nivel:</label>
+                    <span id="modalNivel">1</span>
+                    <span id="modalTitulo" class="user-title">Novato Prometedor</span>
+                </div>
+                
+                <div class="profile-field xp-section">
+                    <label data-i18n="experiencia">Experiencia:</label>
+                    <div class="xp-bar">
+                        <div class="xp-fill" id="modalXpFill"></div>
+                    </div>
+                    <div class="xp-text">
+                        <span id="modalCurrentXP">0</span> / <span id="modalNextLevelXP">100</span> XP
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <button class="btn-logout" data-i18n="cerrarSesion" onclick="cerrarSesion()">Cerrar Sesión</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de edición personalizado -->
+<div id="modalEdicion" class="modal-edit">
+    <div class="modal-edit-content">
+        <span class="modal-edit-close" onclick="document.getElementById('modalEdicion').style.display='none'">✖</span>
+        <h3 id="editModalTitle" class="modal-edit-title">Editar</h3>
+        <div class="modal-edit-form">
+            <label id="editModalLabel" class="modal-edit-label">Campo:</label>
+            <input type="text" id="editInput" class="modal-edit-input" placeholder="Ingresa el nuevo valor">
+            <div class="modal-edit-actions">
+                <button onclick="guardarCambio()" class="btn-edit-save">Guardar</button>
+                <button onclick="document.getElementById('modalEdicion').style.display='none'" class="btn-edit-cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <img src="imagenes/logo.png" alt="Fragmentum Logo" class="logo">
+    <button class="btn" id="jugarBtn" data-i18n="jugar">Iniciar Juego</button>
+    <button class="btn" id="logrosBtn" data-i18n="logros">Logros</button>
+    <button class="btn" id="albumBtn" data-i18n="album">Álbum</button>
+    <button class="btn" id="configBtn" data-i18n="configuracion">Configuración</button>
+</div>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

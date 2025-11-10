@@ -1,0 +1,77 @@
+/* === PÁGINA DE CONFIGURACIÓN === */
+
+.container select {
+    width: 270px;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background-color: #FFD300;
+    font-size: 15px;
+}
+
+/* === SELECTS DE CONFIGURACIÓN === */
+.config-select {
+    width: 270px !important;
+    padding: 12px !important;
+    margin: 10px 0 !important;
+    border: none !important;
+    border-radius: 25px !important;
+    background-color: #FFD300 !important;
+    font-size: 15px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: #e6b800 0px 5px 0px 0px !important;
+}
+
+.config-select:hover {
+    transform: scale(1.02);
+    box-shadow: #e6b800 0px 3px 0px 0px;
+}
+
+.config-select:focus {
+    outline: none;
+    box-shadow: #e6b800 0px 2px 0px 0px, 0 0 0 3px rgba(255, 211, 0, 0.3);
+}
+
+/* === MODAL DE CONFIGURACIÓN === */
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2500;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    border: none;
+    padding: 20px;
+    max-width: 350px;
+    width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1000;
+    text-align: center;
+    backdrop-filter: blur(12px);
+}
+
+.close {
+    color: red;
+    cursor: pointer;
+    float: right;
+    font-size: 18px;
+}
+
+option {
+    border: 25px;
+}

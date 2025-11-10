@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fragmentum Game</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="estilos/styles.css">
+  <link rel="stylesheet" href="estilos/paginas/gameController.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap"></noscript>
+</head>
+<body>
+  <canvas id="fondoNumeros"></canvas>
+  <!--#include file="controlMusica.html" -->
+  <script src="scripts/main.js"></script>
+  <!-- Selector de Modos de Juego -->
+  <div id="mode-selector" class="mode-selector">
+    <h2 data-i18n="eligeModo">Elige tu modo de juego</h2>
+    <div class="mode-cards">
+      <div class="mode-card" id="campaignMode">
+        <div class="mode-icon">🎯</div>
+        <h3 data-i18n="modoCampana">Modo Campaña</h3>
+        <p data-i18n="descCampana">Completa niveles progresivos y desbloquea recompensas</p>
+        <button class="btn mode-btn" data-i18n="jugarCampana">Jugar Campaña</button>
+      </div>
+      <div class="mode-card" id="survivalMode">
+        <div class="mode-icon">⚡</div>
+        <h3 data-i18n="modoSupervivencia">Modo Supervivencia</h3>
+        <p data-i18n="descSupervivencia">Desafío infinito con dificultad creciente. ¡Sobrevive el mayor tiempo posible!</p>
+        <button class="btn mode-btn survival-btn" data-i18n="jugarSupervivencia">Jugar Supervivencia</button>
+      </div>
+    </div>
+    <button class="btn" id="volverMenuModos" data-i18n="volverMenu">Volver al menú</button>
+  </div>
+
+  <!-- Selector de Niveles (Modo Campaña) -->
+  <div id="niveles-root" style="display:none">
+    <h2 data-i18n="seleccionarNivel">Selecciona un nivel</h2>
+    <div class="niveles-grid" id="gridNiveles"></div>
+    <button class="btn" id="volverMenuNiveles" data-i18n="volverModos">Volver a modos</button>
+  </div>
+
+  <!-- Área del Juego -->
+  <div id="game-root" style="display:none"></div>
+
+  <script src="scripts/sw-register.js"></script>
+  <script src="scripts/gameController.js"></script>
+</body>
+</html>

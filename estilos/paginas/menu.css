@@ -1,0 +1,23 @@
+/* === PÁGINA DE MENÚ === */
+
+/* Logo del menú */
+.logo {
+    width: 240px;
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Contenedor del menú */
+.container {
+    width: 320px;
+    text-align: center;
+    background: transparent;
+    padding: 20px;
+}
+
+.container button {
+    width: 270px;
+    padding: 12px;
+    margin: 10px 0;
+}

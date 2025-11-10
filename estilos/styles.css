@@ -1,0 +1,618 @@
+/* === SCROLLBAR GLOBAL === */
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #929292;
+    border-radius: 8px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background-color: #636363;
+}
+
+/* === TIPOGRAFÍA Y ALINEACIÓN GLOBAL === */
+* {
+    font-family: 'DynaPuff', cursive;
+    text-align: center;
+}
+
+/* === PERFIL DE USUARIO === */
+.user-profile {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 15px;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.profile-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #FFD300;
+    background: #FFD300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #2a2a2a;
+    white-space: nowrap;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* === MODALES BASE === */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: 12px;
+}
+
+#modalEdicion {
+    z-index: 15000 !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === MODAL DE PERFIL === */
+.profile-modal {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+    max-width: 400px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.profile-photo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #FFD300;
+    background: #FFD300;
+}
+
+.change-photo-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #FFD300;
+    border: 2px solid white;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.change-photo-btn:hover {
+    background: #ffed4e;
+    transform: scale(1.1);
+}
+
+.profile-details {
+    width: 100%;
+}
+
+.profile-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-field label {
+    font-weight: 600;
+    color: #2a2a2a;
+    min-width: 60px;
+}
+
+.profile-field span {
+    flex: 1;
+    text-align: center;
+    color: #555;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+    margin-left: 8px;
+}
+
+.edit-btn:hover {
+    background: rgba(255, 211, 0, 0.3);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.profile-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-logout {
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #ffd700;
+    border: none;
+    border-radius: 25px;
+    margin: 10px 5px;
+    width: 270px;
+    height: 50px;
+    color: black;
+    font-style: italic;
+    transition: all 0.3s ease, transform 0.2s ease;
+    box-shadow: #e6b800 0px 10px 0px 0px;
+}
+
+.btn-logout:hover {
+    transform: scale(1.1);
+}
+
+/* === MODAL DE EDICIÓN === */
+.modal-edit {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 15000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-edit-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+}
+
+.modal-edit-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.modal-edit-close:hover {
+    opacity: 0.7;
+}
+
+.modal-edit-title {
+    margin: 0 0 20px 0;
+    font-size: 1.5em;
+    color: #fff;
+    font-weight: 700;
+}
+
+.modal-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-edit-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #f0f0f0;
+    font-size: 1.1em;
+}
+
+.modal-edit-input {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.modal-edit-input:focus {
+    outline: none;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(255, 211, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.modal-edit-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.btn-edit-save {
+    background: #ffd700;
+    color: #333;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+.btn-edit-save:hover {
+    background: #ffed4e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
+}
+
+.btn-edit-cancel {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 25px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-edit-cancel:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+/* === FONDO Y CAPAS === */
+#fondoNumeros {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: transparent;
+    pointer-events: none;
+}
+
+.card,
+.custom-pack,
+.custom-pack-side,
+.custom-album-side,
+.pack,
+.btn,
+.juego-btn,
+.nivel-btn,
+.registro,
+.login,
+.logo,
+.input,
+.container,
+.modal,
+.modal-content,
+.logros-container,
+.logro,
+a {
+    position: relative;
+    z-index: 1;
+}
+
+/* === LAYOUT DE BODY GLOBAL === */
+body {
+    background: linear-gradient(
+        90deg,
+        rgba(253, 57, 161, 1) 0%,
+        rgba(252, 206, 144, 1) 50%,
+        rgba(132, 212, 216, 1) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* === FORMULARIOS COMPARTIDOS === */
+input {
+    background-color: #FFD300;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 10px;
+    color: black;
+    font-size: 15px;
+    outline: none;
+    margin: 4px 0;
+    width: 250px;
+    height: 25px;
+    transition: all 0.3s ease;
+}
+
+.input-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+input.valid {
+    border-color: #4CAF50;
+    background-color: #e8f5e8;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+input.invalid {
+    border-color: #f44336;
+    background-color: #fdeaea;
+    box-shadow: 0 0 5px rgba(244, 67, 54, 0.3);
+}
+
+input.neutral {
+    border-color: black;
+    background-color: #FFD300;
+}
+
+.validation-message {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    min-height: auto;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.validation-message.valid {
+    color: #4CAF50;
+}
+
+.validation-message.invalid {
+    color: #f44336;
+}
+
+.validation-message.neutral {
+    color: transparent;
+}
+
+::placeholder {
+    color: black;
+}
+
+button a {
+    color: black;
+    text-decoration: none;
+}
+
+/* === BOTÓN GENERAL === */
+.btn {
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #FFD300;
+    border: none;
+    border-radius: 25px;
+    margin: 10px 5px;
+    width: 270px;
+    height: 50px;
+    color: black;
+    font-style: italic;
+    transition: all 0.3s ease, transform 0.2s ease;
+    box-shadow: #e6b800 0px 10px 0px 0px;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    box-shadow: #e6b800 0px 7px 0px 0px;
+}
+
+.btn:active {
+    background-color: #FFD300;
+    box-shadow: #e6b800 0px 0px 0px 0px;
+    transform: translateY(5px) scale(1.05);
+    transition: 200ms;
+}
+
+.btn:focus {
+    background-color: #FFD300;
+    box-shadow: #e6b800 0px 5px 0px 0px;
+    transform: translateY(5px) scale(1.05);
+    transition: 200ms;
+}
+
+.btn:disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: #999 0px 5px 0px 0px;
+    opacity: 0.6;
+}
+
+.btn:disabled:hover {
+    transform: none;
+    box-shadow: #999 0px 5px 0px 0px;
+}
+
+/* === CONTENEDOR === */
+.container {
+    width: 320px;
+    text-align: center;
+    background: transparent;
+}
+
+.container button {
+    width: 270px;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 25px;
+    background-color: #FFD300;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+option {
+    border: 25px;
+}
+
+/* === VARIANTES DE MODAL SOBREESCRITAS === */
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2500;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    border: none;
+    padding: 20px;
+    max-width: 350px;
+    width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1000;
+    text-align: center;
+    backdrop-filter: blur(12px);
+}
+
+.close {
+    color: red;
+    cursor: pointer;
+    float: right;
+    font-size: 18px;
+}

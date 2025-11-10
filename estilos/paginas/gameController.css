@@ -1,0 +1,1094 @@
+/* === PÁGINA DE GAME CONTROLLER === */
+
+/* === BOTONES DEL JUEGO === */
+.juego-btn {
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #FFD300;
+    border: none;
+    border-radius: 25px;
+    margin: 10px 5px;
+    width: 125px;
+    height: 50px;
+    color: black;
+    font-style: italic;
+    transition: all 0.3s ease, transform 0.2s ease;
+    box-shadow: #e6b800 0px 10px 0px 0px;
+}
+
+.juego-btn:hover {
+    transform: scale(1.1);
+    box-shadow: #e6b800 0px 7px 0px 0px;
+}
+
+.juego-btn:active {
+    background-color: #FFD300;
+    box-shadow: #e6b800 0px 0px 0px 0px;
+    transform: translateY(5px) scale(1.05);
+    transition: 200ms;
+}
+
+.juego-btn:focus {
+    background-color: #FFD300;
+    box-shadow: #e6b800 0px 5px 0px 0px;
+    transform: translateY(5px) scale(1.05);
+    transition: 200ms;
+}
+
+.juego-btn:disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: #999 0px 5px 0px 0px;
+    opacity: 0.6;
+}
+
+.juego-btn:disabled:hover {
+    transform: none;
+    box-shadow: #999 0px 5px 0px 0px;
+}
+
+.juego-btn.option-available {
+    animation: optionBecomeAvailable 0.5s ease-out;
+}
+
+@keyframes optionBecomeAvailable {
+    0% {
+        opacity: 0.6;
+        background-color: #ccc;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        background-color: #FFD300;
+        transform: scale(1);
+    }
+}
+
+.card-footer button#continueBtn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 1em;
+}
+
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* === OPCIONES ESTILO FRACCIÓN === */
+.options-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin: 12px auto 4px auto;
+    max-width: 520px;
+}
+
+.fraction-btn {
+    background: #FFD300;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 120px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fraction-btn:hover {
+    background: #ffed4e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.fraction-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fraction-btn.selected {
+    background: #f0c814;
+    outline: 3px solid #333;
+    transform: scale(1.05);
+}
+
+.fraction-btn .fraction {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* === RESPONSIVE JUEGO === */
+@media (max-width: 640px) {
+    .user-profile {
+        top: 15px;
+        right: 15px;
+        padding: 6px 12px;
+        gap: 8px;
+    }
+
+    .profile-avatar {
+        width: 30px;
+        height: 30px;
+        border-width: 2px;
+    }
+
+    .profile-name {
+        font-size: 0.8em;
+        max-width: 100px;
+    }
+
+    #game-root .card {
+        max-width: 350px;
+        width: 95vw;
+        padding: 1.2em 1em;
+        margin: 10px auto;
+        border-radius: 20px;
+    }
+
+    #game-root .card-title {
+        font-size: 1.1em;
+        margin-bottom: 1em;
+        line-height: 1.3;
+    }
+
+    .visual-aid {
+        margin: 1em auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .visual-aid svg {
+        width: 140px !important;
+        height: 140px !important;
+    }
+
+    .options-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        justify-content: center;
+        margin: 1.5em auto 1em auto;
+        max-width: 280px;
+        padding: 0 10px;
+    }
+
+    .fraction-btn {
+        width: 100px;
+        height: 65px;
+        font-size: 1.1em;
+        border-radius: 25px;
+        box-shadow: 0 6px 0 0 #e6b800;
+        background: #FFD300;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .fraction-btn:hover {
+        transform: translateY(2px);
+        box-shadow: 0 4px 0 0 #e6b800;
+        background: #ffed4e;
+    }
+
+    .fraction-btn:active {
+        transform: translateY(6px);
+        box-shadow: 0 0px 0 0 #e6b800;
+    }
+
+    .fraction-btn .fraction {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .fraction-btn.selected {
+        outline: 3px solid #333;
+        background: #f0c814;
+        transform: scale(1.02);
+    }
+
+    .card-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1em;
+        padding: 0 10px;
+        gap: 10px;
+    }
+
+    #submitBtn {
+        width: 140px;
+        height: 35px;
+        font-size: 0.75em;
+        border-radius: 18px;
+        padding: 8px 16px;
+        order: 1;
+    }
+
+    .bottom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        order: 2;
+    }
+
+    .card-footer .juego-btn.back-menu-btn {
+        width: 100px;
+        height: 30px;
+        font-size: 0.7em;
+        border-radius: 15px;
+        padding: 6px 12px;
+    }
+
+    .footer-points {
+        font-size: 0.75em;
+        padding: 0.3em 0.6em;
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+        order: 10;
+    }
+
+    body {
+        justify-content: flex-start;
+        padding: 20px 10px;
+    }
+}
+@media (max-width: 640px) and (min-height: 720px) {
+    #game-root .card {
+        margin-top: 8px;
+    }
+
+    .visual-aid svg {
+        width: 150px !important;
+        height: 150px !important;
+    }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    #game-root .card {
+        padding: 0.6em 0.7em;
+    }
+
+    .juego-btn,
+    .option-btn {
+        width: 70px;
+        height: 52px;
+        font-size: 0.7em;
+    }
+
+    #submitBtn {
+        width: 110px;
+        height: 35px;
+        font-size: 0.7em;
+    }
+
+    .card-footer .juego-btn.back-menu-btn {
+        width: 90px;
+        height: 30px;
+        font-size: 0.65em;
+    }
+
+    .visual-aid svg {
+        width: 110px !important;
+        height: 110px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    #game-root .card {
+        max-width: 320px;
+        width: 98vw;
+        padding: 1em 0.8em;
+    }
+
+    .visual-aid svg {
+        width: 120px !important;
+        height: 120px !important;
+    }
+
+    .options-wrapper {
+        gap: 12px;
+        max-width: 260px;
+    }
+
+    .fraction-btn {
+        height: 60px;
+        font-size: 1em;
+        border-radius: 20px;
+    }
+
+    .fraction-btn .fraction {
+        font-size: 1.1em;
+    }
+
+    #submitBtn {
+        width: 130px;
+        height: 35px;
+        font-size: 0.75em;
+    }
+
+    .card-footer .juego-btn.back-menu-btn {
+        width: 100px;
+        height: 30px;
+        font-size: 0.7em;
+    }
+}
+
+/* === TARJETAS Y FEEDBACK DEL JUEGO === */
+.card {
+    background: rgba(211, 67, 67, 0.15);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #0001;
+    margin: 10px;
+    padding: 1em;
+    max-width: 600px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.level-complete-modal {
+    background: rgba(255, 255, 255, 0.459);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #0001;
+    margin: 10px;
+    padding: 1em;
+    max-width: 600px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.level-complete-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.level-complete-buttons .btn {
+    flex: 1;
+    max-width: 150px;
+}
+
+.card-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2a2a2a;
+    z-index: 15000;
+}
+
+.progress {
+    height: 8px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.5em 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #007bff;
+    transition: width 0.3s;
+}
+
+.feedback {
+    padding: 1em;
+    border-radius: 6px;
+    margin-top: 1em;
+    text-align: center;
+}
+
+.feedback.correct {
+    background: #d4edda;
+    color: #155724;
+}
+
+.feedback.incorrect {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.visual-aid {
+    margin: 1em auto;
+}
+
+/* === MODAL DINÁMICO DEL GAMECONTROLLER === */
+.card[style*="position:fixed"] {
+    z-index: 16000 !important;
+}
+
+/* === FOOTER POINTS GENERAL DEL JUEGO === */
+.footer-points {
+    font-size: 1.1em;
+    color: #222;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    padding: 0.5em 1em;
+    box-shadow: 0 2px 8px #0001;
+    margin-left: 1em;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* === MODO SUPERVIVENCIA === */
+.mode-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: fit-content;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.mode-selector h2 {
+    color: var(--yellow);
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 11;
+}
+
+.mode-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 800px;
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 11;
+}
+
+.mode-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 3px solid transparent;
+    position: relative;
+    z-index: 12;
+}
+
+.mode-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border-color: var(--yellow);
+}
+
+.mode-icon {
+    font-size: 4em;
+    margin-bottom: 15px;
+}
+
+.mode-card h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.mode-card p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.mode-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 13;
+}
+
+.mode-selector > .btn {
+    position: relative;
+    z-index: 11;
+}
+
+.survival-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    box-shadow: 0 6px 0 #d63031;
+}
+
+.survival-btn:hover {
+    background: linear-gradient(45deg, #ff5252, #ff7043);
+}
+.survival-stats-compact {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.survival-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 1em;
+    font-weight: bold;
+    justify-content: center;
+    text-align: center;
+}
+
+.stat-icon {
+    font-size: 1.2em;
+}
+
+.stat-text {
+    color: #333;
+    font-size: 0.85em;
+    line-height: 1.2;
+}
+
+.survival-timer {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    gap: 15px;
+}
+
+.survival-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.survival-lives {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.survival-streak {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.survival-multiplier {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.survival-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.survival-score,
+.survival-level,
+.survival-question {
+    text-align: center;
+    font-weight: bold;
+}
+.survival-records {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.record-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.record-value {
+    color: #ffd700;
+    font-size: 1.1em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.new-record-active {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    color: #333 !important;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-weight: bold;
+    animation: recordGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes recordGlow {
+    from {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        transform: scale(1);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        transform: scale(1.02);
+    }
+}
+.power-up-circles {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.power-up-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hint-circle {
+    background: linear-gradient(45deg, #4fc3f7, #29b6f6);
+}
+
+.life-circle {
+    background: linear-gradient(45deg, #81c784, #66bb6a);
+}
+
+.bonus-circle {
+    background: linear-gradient(45deg, #ffb74d, #ffa726);
+}
+
+.power-up-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.power-up-circle:active {
+    transform: scale(0.95);
+}
+
+.power-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #fff;
+    color: #333;
+    font-size: 0.7em;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.powerup-used {
+    background: linear-gradient(45deg, #a8e6cf, #dcedc8);
+    color: #2e7d32;
+    border-left: 5px solid #4caf50;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-weight: bold;
+    animation: powerUpFeedback 0.5s ease-out;
+}
+
+@keyframes powerUpFeedback {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.survival-correct {
+    background: linear-gradient(45deg, #56ab2f, #a8e6cf);
+    color: #2d5016;
+    border-left: 5px solid #4caf50;
+}
+
+.survival-incorrect {
+    background: linear-gradient(45deg, #ff6b6b, #ffcccc);
+    color: #8b0000;
+    border-left: 5px solid #f44336;
+}
+.survival-end {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.new-record {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    color: #333;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 20px 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+    border: 3px solid #ff6b35;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.survival-final-stats {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.final-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.final-stat:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    font-weight: normal;
+}
+
+.stat-value {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #ffd700;
+}
+
+.record-highlight {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    color: #333 !important;
+    padding: 4px 8px;
+    border-radius: 8px;
+    text-shadow: none;
+    box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
+.survival-end-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.survival-restart {
+    background: linear-gradient(45deg, #4caf50, #81c784);
+    box-shadow: 0 6px 0 #2e7d32;
+    color: white;
+    font-weight: bold;
+}
+
+.survival-restart:hover {
+    background: linear-gradient(45deg, #43a047, #75c478);
+}
+@media (max-width: 768px) {
+    .mode-cards {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+
+    .survival-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .survival-info {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .survival-end-buttons {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .mode-selector h2 {
+        font-size: 2em;
+    }
+
+    .mode-card {
+        padding: 20px;
+    }
+
+    .mode-icon {
+        font-size: 3em;
+    }
+
+    .survival-stats-compact {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        padding: 8px;
+    }
+
+    .survival-stat-item {
+        font-size: 0.65em;
+        gap: 1px;
+    }
+
+    .stat-icon {
+        font-size: 0.9em;
+    }
+
+    .stat-text {
+        font-size: 0.7em;
+        line-height: 1.1;
+    }
+
+    .power-up-circles {
+        gap: 6px;
+    }
+
+    .power-up-circle {
+        width: 35px;
+        height: 35px;
+        font-size: 1em;
+    }
+
+    .power-count {
+        width: 16px;
+        height: 16px;
+        font-size: 0.6em;
+        top: -4px;
+        right: -4px;
+    }
+}
+
+/* === PÁGINA DE NIVELES === */
+
+/* Contenedor principal de niveles */
+#niveles-root {
+    position: relative;
+    z-index: 10;
+}
+
+#niveles-root h2 {
+    position: relative;
+    z-index: 11;
+}
+
+/* Contenedor de la lista de niveles */
+#niveles-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 600px;
+    margin: 20px auto 30px auto;
+    padding: 10px;
+}
+
+/* Botones de nivel con clase nivel-btn */
+.nivel-btn {
+    width: 100%;
+    min-width: 90px;
+    height: 90px;
+    font-size: 2.5em;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: #FFD300;
+    border: 3px solid #000;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease, transform 0.2s ease;
+    box-shadow: #e6b800 0px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DynaPuff', cursive;
+}
+
+.nivel-btn:hover:not(:disabled) {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: #e6b800 0px 12px 0px 0px;
+}
+
+.nivel-btn:active:not(:disabled) {
+    background-color: #FFD300;
+    box-shadow: #e6b800 0px 2px 0px 0px;
+    transform: translateY(8px) scale(1.02);
+    transition: 150ms;
+}
+
+.nivel-btn:disabled {
+    background: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: #7e7e7e 0px 10px 0px 0px;
+    opacity: 0.6;
+    border-color: #999;
+}
+
+/* Botones creados dinámicamente sin clase específica */
+#niveles-list button:not(.nivel-btn) {
+    width: 100%;
+    min-width: 90px;
+    height: 90px;
+    font-size: 2.5em;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: #FFD300;
+    border: 3px solid #000;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease, transform 0.2s ease;
+    box-shadow: #e6b800 0px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DynaPuff', cursive;
+}
+
+/* Grid de selección de niveles */
+.niveles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+    position: relative;
+    z-index: 11;
+}
+
+.nivel-btn {
+    width: 80px;
+    height: 80px;
+    font-size: 2em;
+    border-radius: 16px;
+    font-weight: bold;
+    box-shadow: var(--yellow-dark, #e6b800) 0px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    background: var(--yellow, #FFD300);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    z-index: 12;
+}
+
+.nivel-btn:disabled {
+    background: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: #7e7e7e 0px 10px 0px 0px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    #niveles-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        max-width: 350px;
+    }
+
+    .nivel-btn,
+    #niveles-list button {
+        height: 70px;
+        min-width: 70px;
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 400px) {
+    #niveles-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        max-width: 300px;
+    }
+
+    .nivel-btn,
+    #niveles-list button {
+        height: 60px;
+        min-width: 60px;
+        font-size: 1.5em;
+    }
+}

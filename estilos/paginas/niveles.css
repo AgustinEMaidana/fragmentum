@@ -1,0 +1,137 @@
+/* === PÁGINA DE NIVELES === */
+
+/* Contenedor de la lista de niveles */
+#niveles-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 600px;
+    margin: 20px auto 30px auto;
+    padding: 10px;
+}
+
+/* Botones de nivel con clase nivel-btn */
+.nivel-btn {
+    width: 100%;
+    min-width: 90px;
+    height: 90px;
+    font-size: 2.5em;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: #FFD300;
+    border: 3px solid #000;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease, transform 0.2s ease;
+    box-shadow: #e6b800 0px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DynaPuff', cursive;
+}
+
+.nivel-btn:hover:not(:disabled) {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: #e6b800 0px 12px 0px 0px;
+}
+
+.nivel-btn:active:not(:disabled) {
+    background-color: #FFD300;
+    box-shadow: #e6b800 0px 2px 0px 0px;
+    transform: translateY(8px) scale(1.02);
+    transition: 150ms;
+}
+
+.nivel-btn:disabled {
+    background: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: #7e7e7e 0px 10px 0px 0px;
+    opacity: 0.6;
+    border-color: #999;
+}
+
+/* Botones creados dinámicamente sin clase específica */
+#niveles-list button:not(.nivel-btn) {
+    width: 100%;
+    min-width: 90px;
+    height: 90px;
+    font-size: 2.5em;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: #FFD300;
+    border: 3px solid #000;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease, transform 0.2s ease;
+    box-shadow: #e6b800 0px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DynaPuff', cursive;
+}
+
+/* Grid de selección de niveles */
+.niveles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+}
+
+.nivel-btn {
+    width: 80px;
+    height: 80px;
+    font-size: 2em;
+    border-radius: 16px;
+    font-weight: bold;
+    box-shadow: var(--yellow-dark, #e6b800) 0px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    background: var(--yellow, #FFD300);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nivel-btn:disabled {
+    background: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: #7e7e7e 0px 10px 0px 0px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    #niveles-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        max-width: 350px;
+    }
+
+    .nivel-btn,
+    #niveles-list button {
+        height: 70px;
+        min-width: 70px;
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 400px) {
+    #niveles-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        max-width: 300px;
+    }
+
+    .nivel-btn,
+    #niveles-list button {
+        height: 60px;
+        min-width: 60px;
+        font-size: 1.5em;
+    }
+}

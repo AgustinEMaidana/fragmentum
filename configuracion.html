@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuración - Fragmentum</title>
+<link href='estilos/styles.css' rel='stylesheet'>
+<link href='estilos/paginas/configuracion.css' rel='stylesheet'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+<canvas id="fondoNumeros"></canvas>
+<!--#include file="controlMusica.html" -->
+<div class="container">
+    <h2 data-i18n="configuracion">Configuración</h2>
+    <form>
+        <select id="idioma" name="idioma" class="config-select">
+            <option value="es">Idioma: Español</option>
+            <option value="en">Language: English</option>
+        </select>
+        <select id="estiloVisual" name="estiloVisual" class="config-select">
+            <option value="mixed" data-i18n="estiloMixto">🎲 Estilo Visual: Mixto</option>
+            <option value="pizza" data-i18n="estiloPizza">🍕 Estilo Visual: Pizza</option>
+            <option value="bar" data-i18n="estiloBarras">📊 Estilo Visual: Barras</option>
+        </select>
+        <button class="btn" type="button" onclick="abrirModal('nombre')" data-i18n="cambiarNombre">Cambiar Nombre</button>
+        <button class="btn" type="button" onclick="abrirModal('contraseña')" data-i18n="cambiarContraseña">Cambiar Contraseña</button>
+        <button class="btn" type="button" onclick="abrirModal('privacidad')" data-i18n="politicaPrivacidad">Política de Privacidad</button>
+        <button class="btn" type="button" onclick="abrirModal('ayuda')" data-i18n="ayuda">Ayuda</button>
+     
+        
+        <button class="btn" type="button" onclick="cerrarSesion()" data-i18n="cerrarSesion">Cerrar Sesión</button>
+    <button class="btn" type="button" id="volverConfigBtn" data-i18n="volver">Volver</button>
+    </form>
+</div>
+
+<div id="miModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">✖</span>
+        <div id="modalTexto"></div>
+    </div>
+</div>
+
+<script src="scripts/main.js"></script>
+<script src="scripts/configuracion.js"></script>
+</body>
+</html>
