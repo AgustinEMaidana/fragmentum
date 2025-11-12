@@ -24,12 +24,7 @@ function aplicarIdioma(idioma) {
     document.querySelectorAll('[data-i18n]').forEach(elemento => {
         const clave = elemento.getAttribute('data-i18n');
         if (textos[clave]) {
-            // Usar innerHTML para elementos que pueden contener HTML como <br>
-            if (textos[clave].includes('<br>')) {
-                elemento.innerHTML = textos[clave];
-            } else {
-                elemento.textContent = textos[clave];
-            }
+            elemento.textContent = textos[clave];
         }
     });
     
@@ -125,21 +120,6 @@ const idiomas = {
         // Logros
         "logros": "Logros",
         "reclamado": "¡Reclamado!",
-        "reclamarSobres": "Reclamar sobres",
-        "logro0": "Explorador de Fracciones<br>Nivel 1 Completado",
-        "logro1": "Navegantes de Fracciones<br>Nivel 2 Completado",
-        "logro2": "Maestro de Fracciones<br>Nivel 3 Completado",
-        "logro3": "Guerrero Matemático<br>Nivel 4 Completado",
-        "logro4": "Conquistador Numérico<br>Nivel 5 Completado",
-        "logro5": "Experto Fraccionario<br>Nivel 6 Completado",
-        "logro6": "Sabio de Números<br>Nivel 7 Completado",
-        "logro7": "Campeón Fraccionario<br>Nivel 8 Completado",
-        "logro8": "Leyenda Matemática<br>Nivel 9 Completado",
-        "logro9": "Maestro Supremo<br>Nivel 10 Completado",
-        "logro10": "Elite Fraccionaria<br>Nivel 11 Completado",
-        "logro11": "Gran Maestro Final<br>Nivel 12 Completado",
-        "logro12": "Comienzo Perfecto<br>¡Primer paso hacia la gloria!",
-        "logro13": "Conquistador Total<br>¡Todos los niveles completados!",
         
         // Álbum
         "albumFragmentum": "Álbum Fragmentum",
@@ -215,21 +195,6 @@ const idiomas = {
         // Achievements
         "logros": "Achievements",
         "reclamado": "Claimed!",
-        "reclamarSobres": "Claim packs",
-        "logro0": "Fraction Explorer<br>Level 1 Completed",
-        "logro1": "Fraction Navigators<br>Level 2 Completed",
-        "logro2": "Fraction Master<br>Level 3 Completed",
-        "logro3": "Math Warrior<br>Level 4 Completed",
-        "logro4": "Numeric Conqueror<br>Level 5 Completed",
-        "logro5": "Fraction Expert<br>Level 6 Completed",
-        "logro6": "Number Sage<br>Level 7 Completed",
-        "logro7": "Fraction Champion<br>Level 8 Completed",
-        "logro8": "Math Legend<br>Level 9 Completed",
-        "logro9": "Supreme Master<br>Level 10 Completed",
-        "logro10": "Fraction Elite<br>Level 11 Completed",
-        "logro11": "Grand Final Master<br>Level 12 Completed",
-        "logro12": "Perfect Start<br>First step towards glory!",
-        "logro13": "Total Conqueror<br>All levels completed!",
         
         // Album
         "albumFragmentum": "Fragmentum Album",

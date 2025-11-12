@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const logro = document.querySelector(`.logro[data-logro="${numeroLogro}"]`);
         if (logro) {
             logro.classList.add('desbloqueado');
-            logro.querySelector('.estado-logro').textContent = getLogrosTexto('desbloqueado');
+            logro.querySelector('.estado-logro').textContent = 'Desbloqueado';
             const btn = logro.querySelector('.btn-reclamar');
             if (btn) {
                 // Solo mostrar el botón si NO ha sido reclamado antes
@@ -19,30 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Función para obtener textos en el idioma actual
-    function getLogrosTexto(clave) {
-        const idioma = window.getLang ? window.getLang() : 'es';
-        const textos = {
-            es: {
-                desbloqueado: 'Desbloqueado',
-                bloqueado: 'Bloqueado',
-                reclamado: '¡Reclamado!'
-            },
-            en: {
-                desbloqueado: 'Unlocked',
-                bloqueado: 'Locked',
-                reclamado: 'Claimed!'
-            }
-        };
-        return textos[idioma][clave] || textos.es[clave];
-    }
-
     // Función para bloquear un logro (por defecto)
     function bloquearLogro(numeroLogro) {
         const logro = document.querySelector(`.logro[data-logro="${numeroLogro}"]`);
         if (logro) {
             logro.classList.remove('desbloqueado');
-            logro.querySelector('.estado-logro').textContent = getLogrosTexto('bloqueado');
+            logro.querySelector('.estado-logro').textContent = 'Bloqueado';
             const btn = logro.querySelector('.btn-reclamar');
             if (btn) {
                 btn.style.display = 'none';
@@ -120,7 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Marcar como reclamado
             localStorage.setItem('logroReclamado_' + idx, '1');
-            btn.textContent = getLogrosTexto('reclamado');
+            const idioma = window.getLang ? window.getLang() : 'es';
+            const textos = { 
+                es: { reclamado: '¡Reclamado!' },
+                en: { reclamado: 'Claimed!' }
+            };
+            btn.textContent = textos[idioma].reclamado;
             
             // Ocultar después de un tiempo
             setTimeout(() => {

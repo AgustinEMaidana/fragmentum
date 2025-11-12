@@ -846,7 +846,7 @@
         localStorage.setItem('mastered', JSON.stringify([...mastered]));
       }
       updateAlbum();
-      checkProgressBonus(); // Verificar bonus de progreso
+      // Se elimina el bonus por porcentaje de álbum
       pendingPack = [lastPack[0], lastPack[1], lastPack[2]];
       // No mostrar automáticamente las figuritas, el modal se encarga de eso
     }
@@ -1145,31 +1145,7 @@
       updateSobresUI();
     }
     
-    // Verificar bonus de progreso del álbum
-    function checkProgressBonus() {
-      const progress = (owned.size / TOTAL_UNIQUE) * 100;
-      const milestones = [25, 50, 75, 90]; // Porcentajes para bonus
-      const bonusKey = 'progressBonus_';
-      
-      milestones.forEach(milestone => {
-        if (progress >= milestone && !localStorage.getItem(bonusKey + milestone)) {
-          let bonus = 0;
-          if (milestone === 25) bonus = 5;      // 25% = 5 sobres
-          else if (milestone === 50) bonus = 8; // 50% = 8 sobres
-          else if (milestone === 75) bonus = 12; // 75% = 12 sobres
-          else if (milestone === 90) bonus = 15; // 90% = 15 sobres
-          
-          sobres += bonus;
-          localStorage.setItem(bonusKey + milestone, 'true');
-          saveSobres();
-          updateSobresUI();
-          
-          // Mostrar notificación
-          alert(`¡Felicidades! Has completado el ${milestone}% del álbum. ¡${bonus} sobres bonus otorgados!`);
-          console.log(`Bonus de progreso: ${milestone}% = ${bonus} sobres`);
-        }
-      });
-    }
+    // checkProgressBonus eliminado (quitado el bonus por porcentaje de álbum)
 
     function renderPack(ownedBefore = new Set()) {
       const wrap = el('cards');
